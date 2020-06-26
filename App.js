@@ -48,13 +48,12 @@ function displayBarometer() {
       }
 
       call();
-    } else if(isAvailable) {
+    } else if (isAvailable) {
       subscription = Barometer.addListener((json) => {
-        if(json){
+        if (json) {
           setDisplayable(true);
           setData(json);
-        }
-        else{
+        } else {
           setDisplayable(false);
         }
       });
@@ -82,12 +81,17 @@ function displayBarometer() {
             : "Updating.."
           : "Unavailable"}
         {"\n"}
-        Relative Altitude:{" "}
-        {isAvailable
-          ? isDisplayable
-            ? `${data.relativeAltitude} meter(s)`
-            : "Updating..."
-          : "Unavailable"}
+        {"relativeAltitude" in data//Needs iOS to check
+          ? `Relative Altitude: 
+          ${
+            isAvailable
+              ? isDisplayable
+                ? `${data.relativeAltitude} meter(s)`
+                : "Updating..."
+              : "Unavailable"
+          }
+          `
+          : " "}
       </Text>
     </View>
   );
