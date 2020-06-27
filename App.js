@@ -2,350 +2,35 @@ import React, { useState, useEffect } from "react";
 import { StyleSheet, Button, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import * as Battery from "expo-battery";
-import { Barometer, Magnetometer, Pedometer, Gyroscope, Accelerometer } from "expo-sensors";
+import DAccelerometer from "./components/DAccelerometer";
+import DGyroscope from "./components/DGyroscope";
+import DPedometer from "./components/DPedometer";
+import DMagnetometer from "./components/DMagnetometer";
+import DBarometer from "./components/DBarometer";
+import DBattery from "./components/DBattery";
 
-function displayAccelerometer(){
-  const [data, setData] = useState({
-    x: 0,
-    y: 0,
-    z: 0
-  });
-  const [isAvailable, setAvailable] = useState(false);
-  const [isDisplayable, setDisplayable] = useState(false);
-
-  let subscription;
-
-  useEffect(() => {
-    if (!isAvailable) {
-      Accelerometer.isAvailableAsync().then((boolean) => {
-        if (boolean === true) {
-          setAvailable(true);
-        } else setAvailable(false);
-      });
-    } else if (isAvailable) {
-      subscription = Accelerometer.addListener((json) => {
-        if (json) {
-          setDisplayable(true);
-          setData(json);
-        } else {
-          setDisplayable(false);
-        }
-      });
-      Accelerometer.setUpdateInterval(1000);
-    }
-
-    return () => {
-      Accelerometer.removeAllListeners();
-    }
-  });
-
-  return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text>
-      Accelerometer Status:{" "}
-        {isAvailable
-          ? isDisplayable
-            ? "Success"
-            : "Updating."
-          : "Unavailable on this device"}
-        {"\n"}
-        x:{" "}
-        {isAvailable
-          ? isDisplayable
-            ? `${parseFloat(data.x).toFixed(2)} Gs`
-            : "Updating.."
-          : "Unavailable on this device"}
-        {"\n"}
-        y:{" "}
-        {isAvailable
-          ? isDisplayable
-            ? `${parseFloat(data.y).toFixed(2)} Gs`
-            : "Updating.."
-          : "Unavailable on this device"}
-        {"\n"}
-        z:{" "}
-        {isAvailable
-          ? isDisplayable
-            ? `${parseFloat(data.z).toFixed(2)} Gs`
-            : "Updating.."
-          : "Unavailable on this device"}
-        {"\n"}
-        Units in Gs where 1 G = 9.81 m s^-2
-      </Text>
-    </View>
-  );
+function displayAccelerometer(){//Stack.Screen component attribute calls for function and not Components
+  return < DAccelerometer />
 }
 
-function displayGyroscope() {
-  const [data, setData] = useState({
-    x: 0,
-    y: 0,
-    z: 0
-  });
-  const [isAvailable, setAvailable] = useState(false);
-  const [isDisplayable, setDisplayable] = useState(false);
-
-  let subscription;
-
-  useEffect(() => {
-    if (!isAvailable) {
-      Gyroscope.isAvailableAsync().then((boolean) => {
-        if (boolean === true) {
-          setAvailable(true);
-        } else setAvailable(false);
-      });
-    } else if (isAvailable) {
-      subscription = Gyroscope.addListener((json) => {
-        if (json) {
-          setDisplayable(true);
-          setData(json);
-        } else {
-          setDisplayable(false);
-        }
-      });
-      Gyroscope.setUpdateInterval(1000);
-    }
-
-    return () => {
-      Gyroscope.removeAllListeners();
-    }
-  });
-
-  return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text>
-      Gyroscope Status:{" "}
-        {isAvailable
-          ? isDisplayable
-            ? "Success"
-            : "Updating."
-          : "Unavailable on this device"}
-        {"\n"}
-        x:{" "}
-        {isAvailable
-          ? isDisplayable
-            ? `${parseFloat(data.x).toFixed(2)} RPS`
-            : "Updating.."
-          : "Unavailable on this device"}
-        {"\n"}
-        y:{" "}
-        {isAvailable
-          ? isDisplayable
-            ? `${parseFloat(data.y).toFixed(2)} RPS`
-            : "Updating.."
-          : "Unavailable on this device"}
-        {"\n"}
-        z:{" "}
-        {isAvailable
-          ? isDisplayable
-            ? `${parseFloat(data.z).toFixed(2)} RPS`
-            : "Updating.."
-          : "Unavailable on this device"}
-      </Text>
-    </View>
-  );
+function displayGyroscope(){
+  return < DGyroscope />
 }
 
 function displayPedometer() {
-
-  const [data, setData] = useState(0);
-  const [isAvailable, setAvailable] = useState(false);
-
-  let subscription = {};
-
-  useEffect(() => {
-    if (!isAvailable) {
-      Pedometer.isAvailableAsync().then((boolean) => {
-        if (boolean === true) {
-          setAvailable(true);
-        } else setAvailable(false);
-      });
-    } else if (isAvailable) {
-      subscription = Pedometer.watchStepCount((result) => {
-        if (result) {
-          setData(result.steps);
-        }
-      });
-    }
-    return () => {
-      Pedometer.watchStepCount().remove();
-    }
-  });
-
-  return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text style={{textAlign : "center"}}>
-        Note:{"\n"}
-        The device's formula for counting steps are not always scientific{"\n"}
-        Therefore, the results may not be accurate.{"\n"}
-      </Text>
-      <Text>
-        Pedometer Status:{" "}
-          {isAvailable
-            ? "Success"
-            : "Unavailable on this device"}
-          {"\n"}
-          Current Session - Steps Taken:{" "}
-          {isAvailable
-            ? `${data} steps`
-            : "Unavailable on this device"}
-          {"\n"}
-      </Text>
-    </View>
-  );
+  return < DPedometer />
 }
 
 function displayMagnetometer() {
-  const [data, setData] = useState({
-    x: 0,
-    y: 0,
-    z: 0
-  });
-  const [isAvailable, setAvailable] = useState(false);
-  const [isDisplayable, setDisplayable] = useState(false);
-
-  let subscription;
-
-  useEffect(() => {
-    if (!isAvailable) {
-      Magnetometer.isAvailableAsync().then((boolean) => {
-        if (boolean === true) {
-          setAvailable(true);
-        } else setAvailable(false);
-      });
-    } else if (isAvailable) {
-      subscription = Magnetometer.addListener((json) => {
-        if (json) {
-          setDisplayable(true);
-          setData(json);
-        } else {
-          setDisplayable(false);
-        }
-      });
-      Magnetometer.setUpdateInterval(1000);
-    }
-
-    return () => {
-      Magnetometer.removeAllListeners();
-    }
-  });
-
-  return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text>
-      Magnetometer Status:{" "}
-        {isAvailable
-          ? isDisplayable
-            ? "Success"
-            : "Updating."
-          : "Unavailable on this device"}
-        {"\n"}
-        x:{" "}
-        {isAvailable
-          ? isDisplayable
-            ? `${parseFloat(data.x).toFixed(2)} µT`
-            : "Updating.."
-          : "Unavailable on this device"}
-        {"\n"}
-        y:{" "}
-        {isAvailable
-          ? isDisplayable
-            ? `${parseFloat(data.y).toFixed(2)} µT`
-            : "Updating.."
-          : "Unavailable on this device"}
-        {"\n"}
-        z:{" "}
-        {isAvailable
-          ? isDisplayable
-            ? `${parseFloat(data.z).toFixed(2)} µT`
-            : "Updating.."
-          : "Unavailable on this device"}
-      </Text>
-    </View>
-  );
+  return < DMagnetometer />
 }
 
 function displayBarometer() {
-  const [data, setData] = useState({});
-  const [isAvailable, setAvailable] = useState(false);
-  const [isDisplayable, setDisplayable] = useState(false);
-
-  let subscription;
-
-  useEffect(() => {
-    if (!isAvailable) {
-      Barometer.isAvailableAsync().then((boolean) => {
-        if (boolean === true) {
-          setAvailable(true);
-        } else setAvailable(false);
-      });
-    } else if (isAvailable) {
-      subscription = Barometer.addListener((json) => {
-        if (json) {
-          setDisplayable(true);
-          setData(json);
-        } else {
-          setDisplayable(false);
-        }
-      });
-    }
-
-    return () => {
-      Barometer.removeAllListeners();
-    };
-  });
-
-  return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text>
-        Barometer Status:{" "}
-        {isAvailable
-          ? isDisplayable
-            ? "Success"
-            : "Updating."
-          : "Unavailable on this device"}
-        {"\n"}
-        Pressure:{" "}
-        {isAvailable
-          ? isDisplayable
-            ? `${parseFloat(data.pressure).toFixed(2)} hPa`
-            : "Updating.."
-          : "Unavailable on this device"}
-        {"\n"}
-        {"relativeAltitude" in data//Needs iOS to check
-          ? `Relative Altitude: 
-          ${
-            isAvailable
-              ? isDisplayable
-                ? `${data.relativeAltitude} meter(s)`
-                : "Updating..."
-              : "Unavailable on this device"
-          }
-          `
-          : ""}
-      </Text>
-    </View>
-  );
+  return < DBarometer />
 }
 
 function displayBattery() {
-  const [batteryLevel, setBatteryLevel] = useState(0);
-  useEffect(() => {
-    async function getLevel() {
-      const level = await Battery.getBatteryLevelAsync();
-      setBatteryLevel(level);
-    }
-    getLevel();
-  }, []);
-
-  return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text>
-        Battery Level: {batteryLevel ? batteryLevel * 100 : "Updating..."}
-      </Text>
-    </View>
-  );
+  return < DBattery />
 }
 
 function HomeScreen({ navigation }) {
@@ -441,12 +126,12 @@ export default function App() {
         />
         <Stack.Screen
           name="displayGyroscope"
-          component={displayGyroscope}
+          component= {displayGyroscope}
           options={{ title: "Gyroscope" }}
         />
-                <Stack.Screen
+          <Stack.Screen
           name="displayAccelerometer"
-          component={displayAccelerometer}
+          component= {displayAccelerometer} //Component tag did not work 
           options={{ title: "Accelerometer" }}
         />
       </Stack.Navigator>
