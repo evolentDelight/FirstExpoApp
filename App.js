@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { StyleSheet, Button, Text, View } from "react-native";
+import React from "react";
+import { StyleSheet, TouchableOpacity, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import DAccelerometer from "./components/DAccelerometer";
@@ -9,28 +9,29 @@ import DMagnetometer from "./components/DMagnetometer";
 import DBarometer from "./components/DBarometer";
 import DBattery from "./components/DBattery";
 
-function displayAccelerometer(){//Stack.Screen component attribute calls for function and not Components
-  return < DAccelerometer />
+function displayAccelerometer() {
+  //Stack.Screen component attribute calls for function and not Components
+  return <DAccelerometer />;
 }
 
-function displayGyroscope(){
-  return < DGyroscope />
+function displayGyroscope() {
+  return <DGyroscope />;
 }
 
 function displayPedometer() {
-  return < DPedometer />
+  return <DPedometer />;
 }
 
 function displayMagnetometer() {
-  return < DMagnetometer />
+  return <DMagnetometer />;
 }
 
 function displayBarometer() {
-  return < DBarometer />
+  return <DBarometer />;
 }
 
 function displayBattery() {
-  return < DBattery />
+  return <DBattery />;
 }
 
 function HomeScreen({ navigation }) {
@@ -39,55 +40,80 @@ function HomeScreen({ navigation }) {
       style={{
         flex: 1,
         flexDirection: "row",
-        alignItems: "center",
         justifyContent: "center",
       }}
     >
-      <View>
-        <View>
-          <Text>Battery</Text>
-          <Button
-            title="Battery"
-            onPress={() => navigation.navigate("displayBattery")}
-          />
-        </View>
-        <View>
-          <Text>Barometer</Text>
-          <Button
-            title="Barometer"
-            onPress={() => navigation.navigate("displayBarometer")}
-          />
-        </View>
-        <View>
-          <Text>Magnetometer</Text>
-          <Button
-            title="Magnetometer"
-            onPress={() => navigation.navigate("displayMagnetometer")}
-          />
-        </View>
+      <View
+        style={{
+          flex: 1,
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          paddingLeft: "10%",
+        }}
+      >
+        <TouchableOpacity
+          style={styles.item}
+          onPress={() => navigation.navigate("displayBattery")}
+        >
+          <View>
+            <Text numberOfLines={1} extBreakStrategy="balanced">Battery</Text>
+          </View>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.item}
+          onPress={() => navigation.navigate("displayBarometer")}
+        >
+          <View>
+            <Text numberOfLines={1} extBreakStrategy="balanced">Barometer</Text>
+          </View>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.item}
+          onPress={() => navigation.navigate("displayMagnetometer")}
+        >
+          <View>
+            <Text numberOfLines={1} extBreakStrategy="balanced">Magnetometer</Text>
+          </View>
+        </TouchableOpacity>
       </View>
-      <View>
-        <View>
-          <Text>Pedometer</Text>
-          <Button
-            title="Pedometer"
-            onPress={() => navigation.navigate("displayPedometer")}
-          />
-        </View>
-        <View>
-          <Text>Gyroscope</Text>
-          <Button
-            title="Gyroscope"
-            onPress={() => navigation.navigate("displayGyroscope")}
-          />
-        </View>
-        <View>
-          <Text>Accelerometer</Text>
-          <Button
-            title="Accelerometer"
-            onPress={() => navigation.navigate("displayAccelerometer")}
-          />
-        </View>
+      <View
+        style={{
+          flex: 1,
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          paddingRight: "10%",
+        }}
+      >
+        <TouchableOpacity
+          style={styles.item}
+          onPress={() => navigation.navigate("displayPedometer")}
+        >
+          <View>
+            <Text numberOfLines={1} textBreakStrategy="balanced">Pedometer</Text>
+          </View>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.item}
+          onPress={() => navigation.navigate("displayGyroscope")}
+        >
+          <View>
+            <Text numberOfLines={1} extBreakStrategy="balanced">Gyroscope</Text>
+          </View>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.item}
+          onPress={() => navigation.navigate("displayAccelerometer")}
+        >
+          <View>
+            <Text numberOfLines={1} extBreakStrategy="balanced">Accelerometer</Text>
+          </View>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -126,12 +152,12 @@ export default function App() {
         />
         <Stack.Screen
           name="displayGyroscope"
-          component= {displayGyroscope}
+          component={displayGyroscope}
           options={{ title: "Gyroscope" }}
         />
-          <Stack.Screen
+        <Stack.Screen
           name="displayAccelerometer"
-          component= {displayAccelerometer} //Component tag did not work 
+          component={displayAccelerometer} //Component tag did not work
           options={{ title: "Accelerometer" }}
         />
       </Stack.Navigator>
@@ -140,5 +166,14 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
-
+  item: {
+    paddingBottom: "10%",
+    paddingTop: "10%",
+    paddingRight: "25%",
+    paddingLeft: "25%",
+    marginTop: "5%",
+    marginBottom: "5%",
+    borderRadius: 5,
+    backgroundColor: "lightblue",
+  },
 });
