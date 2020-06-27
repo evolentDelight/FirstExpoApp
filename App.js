@@ -43,22 +43,22 @@ function HomeScreen({ navigation }) {
         justifyContent: "center",
       }}
     >
-      <View style={styles.rowcenter}>
-        <View style={styles.centerify}>
+      <View>
+        <View>
           <Text>Battery</Text>
           <Button
             title="Battery"
             onPress={() => navigation.navigate("displayBattery")}
           />
         </View>
-        <View style={styles.centerify}>
+        <View>
           <Text>Barometer</Text>
           <Button
             title="Barometer"
             onPress={() => navigation.navigate("displayBarometer")}
           />
         </View>
-        <View style={styles.centerify}>
+        <View>
           <Text>Magnetometer</Text>
           <Button
             title="Magnetometer"
@@ -66,22 +66,22 @@ function HomeScreen({ navigation }) {
           />
         </View>
       </View>
-      <View style={styles.rowcenter}>
-        <View style={styles.centerify}>
+      <View>
+        <View>
           <Text>Pedometer</Text>
           <Button
             title="Pedometer"
             onPress={() => navigation.navigate("displayPedometer")}
           />
         </View>
-        <View style={styles.centerify}>
+        <View>
           <Text>Gyroscope</Text>
           <Button
             title="Gyroscope"
             onPress={() => navigation.navigate("displayGyroscope")}
           />
         </View>
-        <View style={styles.centerify}>
+        <View>
           <Text>Accelerometer</Text>
           <Button
             title="Accelerometer"
@@ -140,16 +140,5 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
-  centerify: {
-    flex: 1,
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  rowcenter: {
-    flex: 1,
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-  },
+
 });
