@@ -3,28 +3,263 @@ import { StyleSheet, Button, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import * as Battery from "expo-battery";
-import { Barometer } from "expo-sensors";
+import { Barometer, Magnetometer, Pedometer, Gyroscope, Accelerometer } from "expo-sensors";
 
-function displayGyroscope() {
+function displayAccelerometer(){
+  const [data, setData] = useState({
+    x: 0,
+    y: 0,
+    z: 0
+  });
+  const [isAvailable, setAvailable] = useState(false);
+  const [isDisplayable, setDisplayable] = useState(false);
+
+  let subscription;
+
+  useEffect(() => {
+    if (!isAvailable) {
+      Accelerometer.isAvailableAsync().then((boolean) => {
+        if (boolean === true) {
+          setAvailable(true);
+        } else setAvailable(false);
+      });
+    } else if (isAvailable) {
+      subscription = Accelerometer.addListener((json) => {
+        if (json) {
+          setDisplayable(true);
+          setData(json);
+        } else {
+          setDisplayable(false);
+        }
+      });
+      Accelerometer.setUpdateInterval(1000);
+    }
+
+    return () => {
+      Accelerometer.removeAllListeners();
+    }
+  });
+
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text></Text>
+      <Text>
+      Accelerometer Status:{" "}
+        {isAvailable
+          ? isDisplayable
+            ? "Success"
+            : "Updating."
+          : "Unavailable on this device"}
+        {"\n"}
+        x:{" "}
+        {isAvailable
+          ? isDisplayable
+            ? `${parseFloat(data.x).toFixed(2)} RPS`
+            : "Updating.."
+          : "Unavailable on this device"}
+        {"\n"}
+        y:{" "}
+        {isAvailable
+          ? isDisplayable
+            ? `${parseFloat(data.y).toFixed(2)} RPS`
+            : "Updating.."
+          : "Unavailable on this device"}
+        {"\n"}
+        z:{" "}
+        {isAvailable
+          ? isDisplayable
+            ? `${parseFloat(data.z).toFixed(2)} RPS`
+            : "Updating.."
+          : "Unavailable on this device"}
+      </Text>
+    </View>
+  );
+}
+
+function displayGyroscope() {
+  const [data, setData] = useState({
+    x: 0,
+    y: 0,
+    z: 0
+  });
+  const [isAvailable, setAvailable] = useState(false);
+  const [isDisplayable, setDisplayable] = useState(false);
+
+  let subscription;
+
+  useEffect(() => {
+    if (!isAvailable) {
+      Gyroscope.isAvailableAsync().then((boolean) => {
+        if (boolean === true) {
+          setAvailable(true);
+        } else setAvailable(false);
+      });
+    } else if (isAvailable) {
+      subscription = Gyroscope.addListener((json) => {
+        if (json) {
+          setDisplayable(true);
+          setData(json);
+        } else {
+          setDisplayable(false);
+        }
+      });
+      Gyroscope.setUpdateInterval(1000);
+    }
+
+    return () => {
+      Gyroscope.removeAllListeners();
+    }
+  });
+
+  return (
+    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+      <Text>
+      Gyroscope Status:{" "}
+        {isAvailable
+          ? isDisplayable
+            ? "Success"
+            : "Updating."
+          : "Unavailable on this device"}
+        {"\n"}
+        x:{" "}
+        {isAvailable
+          ? isDisplayable
+            ? `${parseFloat(data.x).toFixed(2)} RPS`
+            : "Updating.."
+          : "Unavailable on this device"}
+        {"\n"}
+        y:{" "}
+        {isAvailable
+          ? isDisplayable
+            ? `${parseFloat(data.y).toFixed(2)} RPS`
+            : "Updating.."
+          : "Unavailable on this device"}
+        {"\n"}
+        z:{" "}
+        {isAvailable
+          ? isDisplayable
+            ? `${parseFloat(data.z).toFixed(2)} RPS`
+            : "Updating.."
+          : "Unavailable on this device"}
+      </Text>
     </View>
   );
 }
 
 function displayPedometer() {
+
+  const [data, setData] = useState(0);
+  const [isAvailable, setAvailable] = useState(false);
+
+  let subscription = {};
+
+  useEffect(() => {
+    if (!isAvailable) {
+      Pedometer.isAvailableAsync().then((boolean) => {
+        if (boolean === true) {
+          setAvailable(true);
+        } else setAvailable(false);
+      });
+    } else if (isAvailable) {
+      subscription = Pedometer.watchStepCount((result) => {
+        if (result) {
+          setData(result.steps);
+        }
+      });
+    }
+    return () => {
+      subscription.remove;
+    }
+  });
+
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text></Text>
+      <Text style={{textAlign : "center"}}>
+        Note:{"\n"}
+        The device's formula for counting steps are not always scientific{"\n"}
+        Therefore, the results may not be accurate.{"\n"}
+      </Text>
+      <Text>
+        Pedometer Status:{" "}
+          {isAvailable
+            ? "Success"
+            : "Unavailable on this device"}
+          {"\n"}
+          Current Session - Steps Taken:{" "}
+          {isAvailable
+            ? `${data} steps`
+            : "Unavailable on this device"}
+          {"\n"}
+      </Text>
     </View>
   );
 }
 
 function displayMagnetometer() {
+  const [data, setData] = useState({
+    x: 0,
+    y: 0,
+    z: 0
+  });
+  const [isAvailable, setAvailable] = useState(false);
+  const [isDisplayable, setDisplayable] = useState(false);
+
+  let subscription;
+
+  useEffect(() => {
+    if (!isAvailable) {
+      Magnetometer.isAvailableAsync().then((boolean) => {
+        if (boolean === true) {
+          setAvailable(true);
+        } else setAvailable(false);
+      });
+    } else if (isAvailable) {
+      subscription = Magnetometer.addListener((json) => {
+        if (json) {
+          setDisplayable(true);
+          setData(json);
+        } else {
+          setDisplayable(false);
+        }
+      });
+      Magnetometer.setUpdateInterval(1000);
+    }
+
+    return () => {
+      Magnetometer.removeAllListeners();
+    }
+  });
+
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text></Text>
+      <Text>
+      Magnetometer Status:{" "}
+        {isAvailable
+          ? isDisplayable
+            ? "Success"
+            : "Updating."
+          : "Unavailable on this device"}
+        {"\n"}
+        x:{" "}
+        {isAvailable
+          ? isDisplayable
+            ? `${parseFloat(data.x).toFixed(2)} µT`
+            : "Updating.."
+          : "Unavailable on this device"}
+        {"\n"}
+        y:{" "}
+        {isAvailable
+          ? isDisplayable
+            ? `${parseFloat(data.y).toFixed(2)} µT`
+            : "Updating.."
+          : "Unavailable on this device"}
+        {"\n"}
+        z:{" "}
+        {isAvailable
+          ? isDisplayable
+            ? `${parseFloat(data.z).toFixed(2)} µT`
+            : "Updating.."
+          : "Unavailable on this device"}
+      </Text>
     </View>
   );
 }
@@ -38,16 +273,11 @@ function displayBarometer() {
 
   useEffect(() => {
     if (!isAvailable) {
-      async function call() {
-        let promise = Barometer.isAvailableAsync();
-        promise.then((boolean) => {
-          if (boolean === true) {
-            setAvailable(true);
-          } else setAvailable(false);
-        });
-      }
-
-      call();
+      Barometer.isAvailableAsync().then((boolean) => {
+        if (boolean === true) {
+          setAvailable(true);
+        } else setAvailable(false);
+      });
     } else if (isAvailable) {
       subscription = Barometer.addListener((json) => {
         if (json) {
@@ -72,14 +302,14 @@ function displayBarometer() {
           ? isDisplayable
             ? "Success"
             : "Updating."
-          : "Unavailable"}
+          : "Unavailable on this device"}
         {"\n"}
         Pressure:{" "}
         {isAvailable
           ? isDisplayable
             ? `${parseFloat(data.pressure).toFixed(2)} hPa`
             : "Updating.."
-          : "Unavailable"}
+          : "Unavailable on this device"}
         {"\n"}
         {"relativeAltitude" in data//Needs iOS to check
           ? `Relative Altitude: 
@@ -88,10 +318,10 @@ function displayBarometer() {
               ? isDisplayable
                 ? `${data.relativeAltitude} meter(s)`
                 : "Updating..."
-              : "Unavailable"
+              : "Unavailable on this device"
           }
           `
-          : " "}
+          : ""}
       </Text>
     </View>
   );
@@ -164,6 +394,13 @@ function HomeScreen({ navigation }) {
             onPress={() => navigation.navigate("displayGyroscope")}
           />
         </View>
+        <View style={styles.centerify}>
+          <Text>Accelerometer</Text>
+          <Button
+            title="Accelerometer"
+            onPress={() => navigation.navigate("displayAccelerometer")}
+          />
+        </View>
       </View>
     </View>
   );
@@ -204,6 +441,11 @@ export default function App() {
           name="displayGyroscope"
           component={displayGyroscope}
           options={{ title: "Gyroscope" }}
+        />
+                <Stack.Screen
+          name="displayAccelerometer"
+          component={displayAccelerometer}
+          options={{ title: "Accelerometer" }}
         />
       </Stack.Navigator>
     </NavigationContainer>
