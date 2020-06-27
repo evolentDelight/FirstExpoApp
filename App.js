@@ -169,7 +169,7 @@ function displayPedometer() {
       });
     }
     return () => {
-      subscription.remove;
+      Pedometer.watchStepCount().remove();
     }
   });
 
