@@ -53,23 +53,25 @@ function displayAccelerometer(){
         x:{" "}
         {isAvailable
           ? isDisplayable
-            ? `${parseFloat(data.x).toFixed(2)} RPS`
+            ? `${parseFloat(data.x).toFixed(2)} Gs`
             : "Updating.."
           : "Unavailable on this device"}
         {"\n"}
         y:{" "}
         {isAvailable
           ? isDisplayable
-            ? `${parseFloat(data.y).toFixed(2)} RPS`
+            ? `${parseFloat(data.y).toFixed(2)} Gs`
             : "Updating.."
           : "Unavailable on this device"}
         {"\n"}
         z:{" "}
         {isAvailable
           ? isDisplayable
-            ? `${parseFloat(data.z).toFixed(2)} RPS`
+            ? `${parseFloat(data.z).toFixed(2)} Gs`
             : "Updating.."
           : "Unavailable on this device"}
+        {"\n"}
+        Units in Gs where 1 G = 9.81 m s^-2
       </Text>
     </View>
   );
