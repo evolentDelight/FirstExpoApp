@@ -4,8 +4,8 @@ First expo app where I experiment with sensor API provided by Expo and React Nat
 Tested on Web and Android(Samsung S10)<br><br>
 
 Accelerometer
-Gyroscope
-Barometer
-Battery
-Pedometer
-Magnetometer
+<br>Gyroscope
+<br>Barometer
+<br>Battery
+<br>Pedometer
+<br>Magnetometer
