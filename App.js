@@ -9,31 +9,6 @@ import DMagnetometer from "./components/DMagnetometer";
 import DBarometer from "./components/DBarometer";
 import DBattery from "./components/DBattery";
 
-function displayAccelerometer() {
-  //Stack.Screen component attribute calls for function and not Components
-  return <DAccelerometer />;
-}
-
-function displayGyroscope() {
-  return <DGyroscope />;
-}
-
-function displayPedometer() {
-  return <DPedometer />;
-}
-
-function displayMagnetometer() {
-  return <DMagnetometer />;
-}
-
-function displayBarometer() {
-  return <DBarometer />;
-}
-
-function displayBattery() {
-  return <DBattery />;
-}
-
 function HomeScreen({ navigation }) {
   return (
     <View
@@ -132,32 +107,32 @@ export default function App() {
         />
         <Stack.Screen
           name="displayBattery"
-          component={displayBattery}
+          component={DBattery}
           options={{ title: "Battery" }}
         />
         <Stack.Screen
           name="displayBarometer"
-          component={displayBarometer}
+          component={DBarometer}
           options={{ title: "Barometer" }}
         />
         <Stack.Screen
           name="displayMagnetometer"
-          component={displayMagnetometer}
+          component={DMagnetometer}
           options={{ title: "Magnetometer" }}
         />
         <Stack.Screen
           name="displayPedometer"
-          component={displayPedometer}
+          component={DPedometer}
           options={{ title: "Pedometer" }}
         />
         <Stack.Screen
           name="displayGyroscope"
-          component={displayGyroscope}
+          component={DGyroscope}
           options={{ title: "Gyroscope" }}
         />
         <Stack.Screen
           name="displayAccelerometer"
-          component={displayAccelerometer} //Component tag did not work
+          component={DAccelerometer} //Component tag did not work
           options={{ title: "Accelerometer" }}
         />
       </Stack.Navigator>
